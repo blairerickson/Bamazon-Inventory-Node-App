@@ -52,14 +52,20 @@ function buyitem()
             }, ])
             .then(function (answers) {
                 inventory = inventory - answers.actionchoice;
-                item_price = item_price * answers.actionchoice;
-                console.log("Total cost $" + item_price);
-
-                connection.query('UPDATE items SET stock_quantity=' + inventory + ' WHERE item_id = ' + id, function (error, results, fields) {
-                    if (error) throw error;
-                    console.log(inventory + " left in stock.");
-                    listings();
-                });
+                if (inventory < 0)
+                {
+                 console.log("Not enough left in stock!");
+                 listings();
+                }
+                else {
+                    item_price = item_price * answers.actionchoice;
+                    console.log("Total cost $" + item_price);
+                    connection.query('UPDATE items SET stock_quantity=' + inventory + ' WHERE item_id = ' + id, function (error, results, fields) {
+                        if (error) throw error;
+                        console.log(inventory + " left in stock.");
+                        listings();
+                    });
+                };
             });
 
 
