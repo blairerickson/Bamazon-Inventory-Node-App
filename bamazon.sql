@@ -38,7 +38,7 @@ CREATE TABLE `items` (
 
 LOCK TABLES `items` WRITE;
 /*!40000 ALTER TABLE `items` DISABLE KEYS */;
-INSERT INTO `items` VALUES (1,'tricycle',40,'toy',6),(2,'mercedes S class',3500,'car',3),(3,'Nintendo Switch',300,'video games',5),(4,'Macbook Pro 2017',2000,'electronics',17),(5,'Chicken',1,'Food',45),(6,'Crown Royal',20,'beverage',100),(7,'Telsa Model X',100000,'Car',2),(8,'Legend of Zelda NES 1986 edition',30,'game',4),(9,'Solar Panels',30000,'energy',4),(10,'Robot',300,'robotics',4),(11,'Grapes',2,'food',4);
+INSERT INTO `items` VALUES (1,'tricycle',40,'toy',14),(2,'mercedes S class',3500,'car',5),(3,'Nintendo Switch',300,'video games',5),(4,'Macbook Pro 2017',2000,'electronics',17),(5,'Chicken',1,'Food',45),(6,'Crown Royal',20,'beverage',22),(7,'Telsa Model X',100000,'Car',2),(8,'Legend of Zelda NES 1986 edition',30,'game',4),(9,'Solar Panels',30000,'energy',6),(10,'Robot',300,'robotics',4),(11,'Grapes',2,'food',25);
 /*!40000 ALTER TABLE `items` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-04-12 13:28:27
+-- Dump completed on 2017-04-12 14:11:03
