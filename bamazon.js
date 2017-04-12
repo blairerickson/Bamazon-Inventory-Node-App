@@ -7,6 +7,7 @@ var inquirer   = require('inquirer');
 var current_item = "";
 var item_price = 0;
 var inventory = 0;
+var id = 0;
 
 var connection = mysql.createConnection({
     host     : 'localhost',
@@ -18,7 +19,7 @@ var connection = mysql.createConnection({
 
 connection.connect();
 
-bamselect();
+listings();
 
 
 
@@ -28,37 +29,41 @@ function bamselect()
     inquirer.prompt([
         {
             name: "actionchoice",
-            message: "Welcome Bamazon Manager. \n What do you want to do? \n[1] - ADD NEW ITEM\n[2] - CHECK STOCK LISTINGS \n[3] - QUIT",
+            message: "Welcome Bamazon! \n What is the ID of the item you want to buy? \n ID:",
         }, ])
         .then(function (answers) {
-        console.log("choice selected: " + answers.actionchoice);
-        if (answers.actionchoice == 1)
-        {
-            console.log("You've selected ADD ITEM.")
-            additem();
-        }
-        if (answers.actionchoice == 2)
-        {
-                console.log("You've selected STOCK LISTINGS.")
-                listings();
-        }
-        if (answers.actionchoice == 3)
-                {
-                    connection.end();
-                }
-         if (answers.actionchoice != 1 && answers.actionchoice != 2 && answers.actionchoice != 3)
+        console.log("ID# selected: " + answers.actionchoice);
+        id = answers.actionchoice;
+        buyitem();
+    });
+};
+
+function buyitem()
+{
+    connection.query('SELECT * FROM items WHERE item_id =' + id, function (error, results, fields) {
+        if (error) throw error;
+        console.log("ID #" + results[0].item_id + "  Item name: " + results[0].product_name + "  price: $" + results[0].price + "  type: " + results[0].department_name + "  stock: " + results[0].stock_quantity);
+        inventory = results[0].stock_quantity;
+        item_price = results[0].price;
+        inquirer.prompt([
             {
-                console.log ("Not a choice, try again.");
-                bamselect();
-            }
+                name: "actionchoice",
+                message: "How many do you want to buy? \n Amount:",
+            }, ])
+            .then(function (answers) {
+                inventory = inventory - answers.actionchoice;
+                item_price = item_price * answers.actionchoice;
+                console.log("Total cost $" + item_price);
+
+                connection.query('UPDATE items SET stock_quantity=' + inventory + ' WHERE item_id = ' + id, function (error, results, fields) {
+                    if (error) throw error;
+                    console.log(inventory + " left in stock.");
+                    listings();
+                });
+            });
 
 
 
-        // else  (answers.actionchoice !== 1 && answers.actionchoice !== 2 && answers.actionchoice !== 3)
-        // {
-        //     console.log("Sorry, try again... \n");
-        //   bamselect();
-        // }
     });
 };
 
@@ -74,34 +79,3 @@ function listings() {
     });
 };
 
-
-function additem() {
-    inquirer.prompt([
-        {
-            name: "name",
-            message: "Add a new item to the database. What's the item name? \n NAME: "
-        }, {
-            name: "department",
-            message: "What department does the item go in? DEPARTMENT:"
-        }, {
-            name: "price",
-            message: "How much are you selling it for to start with? PRICE:"
-        },{
-            name: "stock",
-            message: "How many of the item do we have? STOCK:"
-        }])
-        .then(function (answers) {
-        connection.query("INSERT INTO items SET ?", {
-            product_name: answers.name,
-            department_name: answers.department,
-            stock_quantity: answers.stock,
-            price: answers.price
-        }, function(err, res) {
-            console.log(err);
-        });
-            listings();
-            bamselect();
-
-
-    });
-};
