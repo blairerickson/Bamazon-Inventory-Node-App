@@ -1,5 +1,5 @@
 /**
- * Bamazon Manager App. Created by Blair Erickson on 4/6/17.
+ * Bamazon Customer App. Created by Blair Erickson on 4/6/17.
  */
 
 var mysql      = require('mysql');
@@ -28,7 +28,7 @@ function bamselect()
     inquirer.prompt([
         {
             name: "actionchoice",
-            message: "Welcome Bamazon Manager. \n What do you want to do? \n[1] - ADD NEW ITEM\n[2] - FULL PRODUCT LISTINGS \n[3] - LOW STOCK LISTINGS \n[4] - QUIT",
+            message: "Welcome Bamazon Manager. \n What do you want to do? \n[1] - ADD NEW ITEM\n[2] - CHECK STOCK LISTINGS \n[3] - QUIT",
         }, ])
         .then(function (answers) {
         console.log("choice selected: " + answers.actionchoice);
@@ -39,19 +39,14 @@ function bamselect()
         }
         if (answers.actionchoice == 2)
         {
-                console.log("You've selected FULL PRODUCT LISTINGS.")
+                console.log("You've selected STOCK LISTINGS.")
                 listings();
         }
         if (answers.actionchoice == 3)
-            {
-                console.log("You've selected LOW STOCK.")
-                lowstock();
-            }
-            if (answers.actionchoice == 4)
-            {
-                connection.end();
-            }
-         if (answers.actionchoice != 1 && answers.actionchoice != 2 && answers.actionchoice != 3 && answers.actionchoice != 4)
+                {
+                    connection.end();
+                }
+         if (answers.actionchoice != 1 && answers.actionchoice != 2 && answers.actionchoice != 3)
             {
                 console.log ("Not a choice, try again.");
                 bamselect();
@@ -78,17 +73,6 @@ function listings() {
         bamselect();
     });
 };
-
-function lowstock() {
-    connection.query('SELECT * FROM items WHERE stock_quantity < 5', function (error, results, fields) {
-        if (error) throw error;
-        for(i=0;i<results.length;i++){
-            console.log("ID #" + results[i].item_id + "  Item name: " + results[i].product_name + "  price: $" + results[i].price + "  type: " + results[i].department_name + "  stock: " + results[i].stock_quantity);
-        }
-        bamselect();
-    });
-};
-
 
 
 function additem() {
