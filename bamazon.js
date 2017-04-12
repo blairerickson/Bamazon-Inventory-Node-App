@@ -26,10 +26,11 @@ listings();
 // this is where they're prompted to choose their action
 function bamselect()
 {
+    console.log("----------------------------------------------------");
     inquirer.prompt([
         {
             name: "actionchoice",
-            message: "Welcome Bamazon! \n What is the ID of the item you want to buy? \n Or enter 0 to quit. \n ID:",
+            message: "Welcome to the Bamazon node store. \n What is the ID of the item you want to buy? \n Or enter 0 to quit. \n ID:",
         }, ])
         .then(function (answers) {
             if (answers.actionchoice == 0)
@@ -47,6 +48,7 @@ function bamselect()
 
 function buyitem()
 {
+    console.log("----------------------------------------------------");
     connection.query('SELECT * FROM items WHERE item_id =' + id, function (error, results, fields) {
         if (error) {
             console.log("Not a valid ID. \n")
@@ -87,6 +89,7 @@ function buyitem()
 
 
 function listings() {
+    console.log("----------------------------------------------------");
     connection.query('SELECT * FROM items ', function (error, results, fields) {
         if (error) throw error;
         for(i=0;i<results.length;i++){

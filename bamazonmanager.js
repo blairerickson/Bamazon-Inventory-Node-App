@@ -25,6 +25,7 @@ bamselect();
 // this is where they're prompted to choose their action and then triggers the subsequent function
 function bamselect()
 {
+    console.log("----------------------------------------------------");
     inquirer.prompt([
         {
             name: "actionchoice",
@@ -69,6 +70,7 @@ function bamselect()
 
 // lists all items in database
 function listings() {
+    console.log("----------------------------------------------------");
     connection.query('SELECT * FROM items ', function (error, results, fields) {
         if (error) throw error;
         for(i=0;i<results.length;i++){
@@ -80,10 +82,11 @@ function listings() {
 
 // does a check of any items where stock is less than 5 and lists them.
 function lowstock() {
+    console.log("----------------------------------------------------");
     connection.query('SELECT * FROM items WHERE stock_quantity < 5', function (error, results, fields) {
         if (error) throw error;
         for(i=0;i<results.length;i++){
-            console.log("ID #" + results[i].item_id + "  Item name: " + results[i].product_name + "  price: $" + results[i].price + "  type: " + results[i].department_name + "  stock: " + results[i].stock_quantity);
+            console.log("\n ID #" + results[i].item_id + "  Item name: " + results[i].product_name + "  price: $" + results[i].price + "  type: " + results[i].department_name + "  stock: " + results[i].stock_quantity);
         }
         bamselect();
     });
@@ -94,7 +97,8 @@ function lowstock() {
 // adds to the total stock of an item
 function updatestock()
 {
-        inquirer.prompt([
+    console.log("----------------------------------------------------");
+    inquirer.prompt([
             {
                 name: "actionchoice",
                 message: "\n What is the ID of the item you want to add stock to? \n ID:",
@@ -128,6 +132,7 @@ function updatestock()
 
 // adds a new item into the database.
 function additem() {
+    console.log("----------------------------------------------------");
     inquirer.prompt([
         {
             name: "name",
